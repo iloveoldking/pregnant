@@ -9,5 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     Card: typeof import('./src/components/Card.vue')['default']
     VanButton: typeof import('vant/es')['Button']
+    VanCircle: typeof import('vant/es')['Circle']
+    VanTabbar: typeof import('vant/es')['Tabbar']
+    VanTabbarItem: typeof import('vant/es')['TabbarItem']
   }
 }

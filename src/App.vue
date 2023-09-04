@@ -1,23 +1,32 @@
 <template>
   <img class="gif" src="./assets/cat.webp" alt="" />
-  <div class="main">
-    <Card title="临床孕周" :start-time="'2021-11-24'" />
-    <Card title="超声孕周" :start-time="'2021-11-30'" />
-  </div>
-  <van-button type="primary">主要按钮</van-button>
+  <Card :start-time="activeData.startTime" />
+  <van-tabbar v-model="tabbarActive">
+    <van-tabbar-item name="lin_chuang" icon="like-o">临床孕周</van-tabbar-item>
+    <van-tabbar-item name="chao_sheng" icon="like-o">超声孕周</van-tabbar-item>
+  </van-tabbar>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+
+const data = {
+  lin_chuang: {
+    title: '临床孕周',
+    startTime: '2021-11-24',
+  },
+  chao_sheng: {
+    title: '超声孕周',
+    startTime: '2021-11-30',
+  },
+};
+
+const tabbarActive = ref<'lin_chuang' | 'chao_sheng'>('lin_chuang');
+const activeData = computed(() => data[tabbarActive.value]);
+</script>
 
 <style scoped lang="less">
 .gif {
   width: 100%;
-  height: 1.01rem;
-}
-
-.main {
-  padding: 0 0.1rem;
-  position: relative;
-  overflow: auto;
 }
 </style>
