@@ -1,17 +1,13 @@
 <template>
-  <div>孕周开始时间: {{ startTime }}</div>
-  <div>预产期: {{ endTime }}</div>
-  <div class="flex">
-    <div>孕周：{{ weeks }}w</div>
-    <div v-if="days > 0">&nbsp;+ {{ days }}</div>
-    <div>（ {{ allWeeks.toFixed(1) }}w ），</div>
-    <div>已 {{ allDays }} 天（{{ ((allDays / WHOLE_PREGNANCY) * 100).toFixed(0) }}%）</div>
-  </div>
-  <div class="flex">
-    <div>
-      剩余 {{ WHOLE_PREGNANCY - allDays }} 天（{{
-        (((WHOLE_PREGNANCY - allDays) / WHOLE_PREGNANCY) * 100).toFixed(0)
-      }}%）
+  <div class="card">
+    <div>{{ startTime }} ~~~ {{ calcDate.endTime }}</div>
+    <div class="flex mt-25">
+      <div>孕周：{{ calcDate.weeks }}w</div>
+      <div v-if="calcDate.days > 0">&nbsp;＋&nbsp;{{ calcDate.days }}d</div>
+      <div>（ {{ calcDate.allWeeks.toFixed(1) }}w ）</div>
+    </div>
+    <div class="mt-25">
+      已 {{ calcDate.allDays }} 天，剩余 {{ WHOLE_PREGNANCY - calcDate.allDays }} 天
     </div>
   </div>
 </template>
@@ -24,26 +20,30 @@ dayjs.extend(duration);
 
 const WHOLE_PREGNANCY = 280;
 
-const { startTime } = defineProps<{ startTime: string }>();
-console.log('%c startTime ===>', 'color:#ff4d4f', startTime);
+const props = defineProps<{ startTime: string }>();
 
-const endTime = computed(() => {
-  console.log(startTime);
-  return dayjs(startTime).add(WHOLE_PREGNANCY, 'd').format('YYYY-MM-DD');
+const calcDate = computed(() => {
+  const endTime = dayjs(props.startTime).add(WHOLE_PREGNANCY, 'd').format('YYYY-MM-DD');
+  const timeDuration = dayjs.duration(dayjs().valueOf() - dayjs(props.startTime).valueOf());
+  const allDays = Math.ceil(timeDuration.asDays());
+  const allWeeks = timeDuration.asWeeks();
+  let weeks = Math.floor(allWeeks);
+  let days = allDays - weeks * 7;
+
+  return { endTime, allDays, allWeeks, weeks, days };
 });
-console.log('%c endTime ===>', 'color:#ff4d4f', endTime);
-const timeDuration = dayjs.duration(dayjs().valueOf() - dayjs(startTime).valueOf());
-const allDays = Math.ceil(timeDuration.asDays());
-const allWeeks = timeDuration.asWeeks();
-let weeks = Math.floor(allWeeks);
-let days = allDays - weeks * 7;
 </script>
 
 <style scoped lang="less">
+.card {
+  padding: 20px;
+}
 .flex {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  margin-top: 15px;
+}
+
+.mt-25 {
+  margin-top: 25px;
 }
 </style>
