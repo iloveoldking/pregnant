@@ -13,11 +13,11 @@ import { ref, computed } from 'vue';
 const data = {
   lin_chuang: {
     title: '临床孕周',
-    startTime: '2021-11-24',
+    startTime: '2023-07-27',
   },
   chao_sheng: {
     title: '超声孕周',
-    startTime: '2021-11-30',
+    startTime: '2023-07-21',
   },
 };
 
