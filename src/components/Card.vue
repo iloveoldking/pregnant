@@ -24,7 +24,9 @@ const props = defineProps<{ startTime: string }>();
 
 const calcDate = computed(() => {
   const endTime = dayjs(props.startTime).add(WHOLE_PREGNANCY, 'd').format('YYYY-MM-DD');
-  const timeDuration = dayjs.duration(dayjs().valueOf() - dayjs(props.startTime).valueOf());
+  const timeDuration = dayjs.duration(
+    dayjs().startOf('day').valueOf() - dayjs(props.startTime).startOf('day').valueOf()
+  );
   const allDays = Math.ceil(timeDuration.asDays());
   const allWeeks = timeDuration.asWeeks();
   let weeks = Math.floor(allWeeks);
