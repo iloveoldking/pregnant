@@ -36,9 +36,10 @@ const calendarShow = ref<boolean>(false);
 const calendarMin = dayjs(CHAO_SHENG_START).toDate();
 const calendarMax = dayjs(LIN_CHUANG_END).toDate();
 const calendarFormatter = (day: CalendarDayItem) => {
+  const today = dayjs();
   const dayDayjs = dayjs(day.date);
   switch (dayDayjs.format('YYYY-MM-DD')) {
-    case dayjs().format('YYYY-MM-DD'):
+    case today.format('YYYY-MM-DD'):
       day.bottomInfo = '今天';
       break;
     case CHAO_SHENG_START:
@@ -54,6 +55,10 @@ const calendarFormatter = (day: CalendarDayItem) => {
       day.bottomInfo = '临床预产';
       break;
     default:
+      if (day.type === 'selected') {
+        const diff = dayDayjs.startOf('day').diff(today.startOf('day'), 'day');
+        day.bottomInfo = `${Math.abs(diff)}天${diff > 0 ? '后' : '前'}`;
+      }
       break;
   }
   return day;
