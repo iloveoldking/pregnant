@@ -10,7 +10,6 @@ declare module 'vue' {
     Card: typeof import('./src/components/Card.vue')['default']
     VanButton: typeof import('vant/es')['Button']
     VanCalendar: typeof import('vant/es')['Calendar']
-    VanTabbar: typeof import('vant/es')['Tabbar']
-    VanTabbarItem: typeof import('vant/es')['TabbarItem']
+    VanDivider: typeof import('vant/es')['Divider']
   }
 }
